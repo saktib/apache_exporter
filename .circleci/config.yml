@@ -33,15 +33,16 @@ jobs:
     working_directory: /go/src/github.com/Lusitaniae/apache_exporter
 
     environment:
-      DOCKER_IMAGE_NAME: lusotycoon/apache-exporter
-      QUAY_IMAGE_NAME: quay.io/lusitaniae/apache-exporter
+      DOCKER_IMAGE_NAME: saktib/prometheus_apache_exporter
+      QUAY_IMAGE_NAME: quay.io/saktib/prometheus_apache_exporter
 
     steps:
     - checkout
     - setup_remote_docker
     - attach_workspace:
         at: .
-    - run: ln -s .build/linux-amd64/apache_exporter apache_exporter
+    - run: mkdir /app
+    - run: ln -s .build/linux-amd64/apache_exporter /app/apache_exporter
     - run: make docker DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME
     - run: make docker DOCKER_IMAGE_NAME=$QUAY_IMAGE_NAME
     - run: docker images
@@ -56,8 +57,8 @@ jobs:
     working_directory: /go/src/github.com/Lusitaniae/apache_exporter
 
     environment:
-      DOCKER_IMAGE_NAME: lusotycoon/apache-exporter
-      QUAY_IMAGE_NAME: quay.io/lusitaniae/apache-exporter
+      DOCKER_IMAGE_NAME: saktib/prometheus_apache_exporter
+      QUAY_IMAGE_NAME: quay.io/saktib/prometheus_apache_exporter
 
     steps:
     - checkout
@@ -74,7 +75,8 @@ jobs:
     - store_artifacts:
         path: .tarballs
         destination: releases
-    - run: ln -s .build/linux-amd64/apache_exporter apache_exporter
+    - run: mkdir /app
+    - run: ln -s .build/linux-amd64/apache_exporter /app/apache_exporter
     - run: make docker DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: make docker DOCKER_IMAGE_NAME=$QUAY_IMAGE_NAME DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
