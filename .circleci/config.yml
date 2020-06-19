@@ -41,7 +41,6 @@ jobs:
     - setup_remote_docker
     - attach_workspace:
         at: .
-    - run: mkdir /app
     - run: ln -s .build/linux-amd64/apache_exporter /app/apache_exporter
     - run: make docker DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME
     - run: make docker DOCKER_IMAGE_NAME=$QUAY_IMAGE_NAME
@@ -75,7 +74,6 @@ jobs:
     - store_artifacts:
         path: .tarballs
         destination: releases
-    - run: mkdir /app
     - run: ln -s .build/linux-amd64/apache_exporter /app/apache_exporter
     - run: make docker DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME DOCKER_IMAGE_TAG=$CIRCLE_TAG
     - run: make docker DOCKER_IMAGE_NAME=$QUAY_IMAGE_NAME DOCKER_IMAGE_TAG=$CIRCLE_TAG
